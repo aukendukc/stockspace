@@ -55,3 +55,8 @@ Write-Host "Wait 2-3 minutes, then check: https://stockspace-api.azurewebsites.n
 
 
 
+
+
+
+
+

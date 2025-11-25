@@ -10,4 +10,7 @@ python-multipart==0.0.12
 psycopg2-binary==2.9.9
 email-validator==2.1.0
 yfinance==0.2.48
+pytest==7.4.4
+httpx==0.26.0
+apscheduler==3.10.4
 

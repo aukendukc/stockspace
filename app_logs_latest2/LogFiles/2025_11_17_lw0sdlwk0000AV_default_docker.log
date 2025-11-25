@@ -1,0 +1,195 @@
+2025-11-17T17:15:17.629744296Z    _____                               
+2025-11-17T17:15:17.650761946Z   /  _  \ __________ _________   ____  
+2025-11-17T17:15:17.650784766Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2025-11-17T17:15:17.650787205Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2025-11-17T17:15:17.650790046Z \____|__  /_____ \____/ |__|    \___  >
+2025-11-17T17:15:17.650792529Z         \/      \/                  \/ 
+2025-11-17T17:15:17.650794761Z A P P   S E R V I C E   O N   L I N U X
+2025-11-17T17:15:17.650796661Z 
+2025-11-17T17:15:17.650798397Z Documentation    : http://aka.ms/webapp-linux
+2025-11-17T17:15:17.650800375Z Python quickstart: https://aka.ms/python-qs
+2025-11-17T17:15:17.650802266Z Python version   : 3.11.14
+2025-11-17T17:15:17.650804531Z Instance Name    : lw0sdlwk0000AV
+2025-11-17T17:15:17.650806891Z Instance Id      : 761a092c6cbeec305dbcc6c6e744b006c4d173d9d935c8e17cb6b4c751c4957e
+2025-11-17T17:15:17.650808827Z 
+2025-11-17T17:15:17.650810547Z Note: Any data outside '/home' is not persisted
+2025-11-17T17:15:21.870121322Z Starting OpenBSD Secure Shell server: sshd.
+2025-11-17T17:15:21.971309306Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2025-11-17T17:15:22.265109489Z Updating certificates in /etc/ssl/certs...
+2025-11-17T17:16:01.568721978Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2025-11-17T17:16:01.570581622Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_R46.pem
+2025-11-17T17:16:01.590960702Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2025-11-17T17:16:01.600226849Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_E46.pem
+2025-11-17T17:16:01.710658235Z 4 added, 0 removed; done.
+2025-11-17T17:16:01.711548759Z Running hooks in /etc/ca-certificates/update.d...
+2025-11-17T17:16:01.752217814Z done.
+2025-11-17T17:16:01.831321388Z CA certificates copied and updated successfully.
+2025-11-17T17:16:02.302578719Z Site's appCommandLine: python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:16:02.303899708Z 
+2025-11-17T17:16:02.315468959Z Launching oryx with: create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -virtualEnvName antenv -defaultApp /opt/defaultsite -userStartupCommand 'python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:16:02.315489887Z '
+2025-11-17T17:16:02.594060278Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2025-11-17T17:16:02.594118316Z Could not find operation ID in manifest. Generating an operation id...
+2025-11-17T17:16:02.596322149Z Build Operation ID: 2c984f94-8061-469d-bf06-c8465294d641
+2025-11-17T17:16:04.115136439Z Oryx Version: 0.2.20251017.2, Commit: 482d4c55e818733ab33b9d2131f9dc485a21fd03, ReleaseTagName: 20251017.2
+2025-11-17T17:16:04.264947076Z Writing output script to '/opt/startup/startup.sh'
+2025-11-17T17:16:04.534390403Z WARNING: Could not find virtual environment directory /home/site/wwwroot/antenv.
+2025-11-17T17:16:04.534427892Z WARNING: Could not find package directory /home/site/wwwroot/__oryx_packages__.
+2025-11-17T17:16:05.311845855Z /opt/python/3.11.14/bin/python: No module named uvicorn
+
+2025-11-17T17:17:41.650499975Z    _____                               
+2025-11-17T17:17:41.650554123Z   /  _  \ __________ _________   ____  
+2025-11-17T17:17:41.650557928Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2025-11-17T17:17:41.650560450Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2025-11-17T17:17:41.650562574Z \____|__  /_____ \____/ |__|    \___  >
+2025-11-17T17:17:41.650564813Z         \/      \/                  \/ 
+2025-11-17T17:17:41.650566785Z A P P   S E R V I C E   O N   L I N U X
+2025-11-17T17:17:41.650568722Z 
+2025-11-17T17:17:41.650570467Z Documentation    : http://aka.ms/webapp-linux
+2025-11-17T17:17:41.650572321Z Python quickstart: https://aka.ms/python-qs
+2025-11-17T17:17:41.650574239Z Python version   : 3.11.14
+2025-11-17T17:17:41.650576140Z Instance Name    : lw0sdlwk0000AV
+2025-11-17T17:17:41.650578027Z Instance Id      : 761a092c6cbeec305dbcc6c6e744b006c4d173d9d935c8e17cb6b4c751c4957e
+2025-11-17T17:17:41.650580025Z 
+2025-11-17T17:17:41.650581779Z Note: Any data outside '/home' is not persisted
+2025-11-17T17:17:46.702615691Z Starting OpenBSD Secure Shell server: sshd.
+2025-11-17T17:17:46.744514003Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2025-11-17T17:17:46.824842251Z Updating certificates in /etc/ssl/certs...
+2025-11-17T17:18:10.338031612Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2025-11-17T17:18:10.338090747Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_R46.pem
+2025-11-17T17:18:10.398071928Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2025-11-17T17:18:10.468210793Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_E46.pem
+2025-11-17T17:18:10.730550100Z 4 added, 0 removed; done.
+2025-11-17T17:18:10.780842634Z Running hooks in /etc/ca-certificates/update.d...
+2025-11-17T17:18:10.949788043Z done.
+2025-11-17T17:18:10.970186644Z CA certificates copied and updated successfully.
+2025-11-17T17:18:11.464474359Z Site's appCommandLine: python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:18:11.464498734Z 
+2025-11-17T17:18:11.464502075Z Launching oryx with: create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -virtualEnvName antenv -defaultApp /opt/defaultsite -userStartupCommand 'python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:18:11.464507603Z '
+2025-11-17T17:18:11.814158205Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2025-11-17T17:18:11.814180197Z Could not find operation ID in manifest. Generating an operation id...
+2025-11-17T17:18:11.873281299Z Build Operation ID: 3046a83a-6b89-41c2-bb7a-126812337191
+2025-11-17T17:18:13.261563400Z Oryx Version: 0.2.20251017.2, Commit: 482d4c55e818733ab33b9d2131f9dc485a21fd03, ReleaseTagName: 20251017.2
+2025-11-17T17:18:13.392240039Z Writing output script to '/opt/startup/startup.sh'
+2025-11-17T17:18:13.522633262Z WARNING: Could not find virtual environment directory /home/site/wwwroot/antenv.
+2025-11-17T17:18:13.533106995Z WARNING: Could not find package directory /home/site/wwwroot/__oryx_packages__.
+2025-11-17T17:18:13.863590707Z /opt/python/3.11.14/bin/python: No module named uvicorn
+
+2025-11-17T17:18:28.341537343Z    _____                               
+2025-11-17T17:18:28.341604089Z   /  _  \ __________ _________   ____  
+2025-11-17T17:18:28.341608119Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2025-11-17T17:18:28.341610406Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2025-11-17T17:18:28.341612443Z \____|__  /_____ \____/ |__|    \___  >
+2025-11-17T17:18:28.341614742Z         \/      \/                  \/ 
+2025-11-17T17:18:28.341616676Z A P P   S E R V I C E   O N   L I N U X
+2025-11-17T17:18:28.341618506Z 
+2025-11-17T17:18:28.341620310Z Documentation    : http://aka.ms/webapp-linux
+2025-11-17T17:18:28.341622832Z Python quickstart: https://aka.ms/python-qs
+2025-11-17T17:18:28.341624709Z Python version   : 3.11.14
+2025-11-17T17:18:28.341626537Z Instance Name    : lw0sdlwk0000AV
+2025-11-17T17:18:28.341628359Z Instance Id      : 761a092c6cbeec305dbcc6c6e744b006c4d173d9d935c8e17cb6b4c751c4957e
+2025-11-17T17:18:28.341630369Z 
+2025-11-17T17:18:28.341632075Z Note: Any data outside '/home' is not persisted
+2025-11-17T17:18:34.682117726Z Starting OpenBSD Secure Shell server: sshd.
+2025-11-17T17:18:34.712945811Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2025-11-17T17:18:34.784933458Z Updating certificates in /etc/ssl/certs...
+2025-11-17T17:19:02.231216691Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2025-11-17T17:19:02.251121594Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_R46.pem
+2025-11-17T17:19:02.281395474Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2025-11-17T17:19:02.489889630Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_E46.pem
+2025-11-17T17:19:02.521080040Z 4 added, 0 removed; done.
+2025-11-17T17:19:02.521108391Z Running hooks in /etc/ca-certificates/update.d...
+2025-11-17T17:19:02.521111842Z done.
+2025-11-17T17:19:02.521114482Z CA certificates copied and updated successfully.
+2025-11-17T17:19:03.194085705Z Site's appCommandLine: python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:19:03.194230781Z 
+2025-11-17T17:19:03.194235202Z Launching oryx with: create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -virtualEnvName antenv -defaultApp /opt/defaultsite -userStartupCommand 'python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:19:03.194238402Z '
+2025-11-17T17:19:03.594877840Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2025-11-17T17:19:03.594912354Z Could not find operation ID in manifest. Generating an operation id...
+2025-11-17T17:19:03.594916617Z Build Operation ID: 697cd74d-40b4-4c6b-bf58-c0378112e68e
+2025-11-17T17:19:04.538570161Z Oryx Version: 0.2.20251017.2, Commit: 482d4c55e818733ab33b9d2131f9dc485a21fd03, ReleaseTagName: 20251017.2
+2025-11-17T17:19:04.660793486Z Writing output script to '/opt/startup/startup.sh'
+2025-11-17T17:19:04.820181610Z WARNING: Could not find virtual environment directory /home/site/wwwroot/antenv.
+2025-11-17T17:19:04.820205281Z WARNING: Could not find package directory /home/site/wwwroot/__oryx_packages__.
+2025-11-17T17:19:05.212705034Z /opt/python/3.11.14/bin/python: No module named uvicorn
+
+2025-11-17T17:19:19.447551743Z    _____                               
+2025-11-17T17:19:19.447588647Z   /  _  \ __________ _________   ____  
+2025-11-17T17:19:19.447591935Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2025-11-17T17:19:19.447594391Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2025-11-17T17:19:19.447596402Z \____|__  /_____ \____/ |__|    \___  >
+2025-11-17T17:19:19.447598775Z         \/      \/                  \/ 
+2025-11-17T17:19:19.447600718Z A P P   S E R V I C E   O N   L I N U X
+2025-11-17T17:19:19.447602961Z 
+2025-11-17T17:19:19.447604730Z Documentation    : http://aka.ms/webapp-linux
+2025-11-17T17:19:19.447606656Z Python quickstart: https://aka.ms/python-qs
+2025-11-17T17:19:19.447608636Z Python version   : 3.11.14
+2025-11-17T17:19:19.447610527Z Instance Name    : lw0sdlwk0000AV
+2025-11-17T17:19:19.447612388Z Instance Id      : 761a092c6cbeec305dbcc6c6e744b006c4d173d9d935c8e17cb6b4c751c4957e
+2025-11-17T17:19:19.447614366Z 
+2025-11-17T17:19:19.447616146Z Note: Any data outside '/home' is not persisted
+2025-11-17T17:19:22.880363012Z Starting OpenBSD Secure Shell server: sshd.
+2025-11-17T17:19:22.910984035Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2025-11-17T17:19:22.988775344Z Updating certificates in /etc/ssl/certs...
+2025-11-17T17:19:48.243332612Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2025-11-17T17:19:48.252753661Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_R46.pem
+2025-11-17T17:19:48.264807745Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2025-11-17T17:19:48.304195096Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_E46.pem
+2025-11-17T17:19:48.384897906Z 4 added, 0 removed; done.
+2025-11-17T17:19:48.385764877Z Running hooks in /etc/ca-certificates/update.d...
+2025-11-17T17:19:48.513155738Z done.
+2025-11-17T17:19:48.513179166Z CA certificates copied and updated successfully.
+2025-11-17T17:19:48.727313309Z Site's appCommandLine: python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:19:48.727338559Z 
+2025-11-17T17:19:48.727341924Z Launching oryx with: create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -virtualEnvName antenv -defaultApp /opt/defaultsite -userStartupCommand 'python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:19:48.727345470Z '
+2025-11-17T17:19:48.984371246Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2025-11-17T17:19:48.984922513Z Could not find operation ID in manifest. Generating an operation id...
+2025-11-17T17:19:48.985704428Z Build Operation ID: 39331928-89c1-4070-9d77-23557112b6fc
+2025-11-17T17:19:49.643921414Z Oryx Version: 0.2.20251017.2, Commit: 482d4c55e818733ab33b9d2131f9dc485a21fd03, ReleaseTagName: 20251017.2
+2025-11-17T17:19:49.751731073Z Writing output script to '/opt/startup/startup.sh'
+2025-11-17T17:19:49.894757318Z WARNING: Could not find virtual environment directory /home/site/wwwroot/antenv.
+2025-11-17T17:19:49.894782074Z WARNING: Could not find package directory /home/site/wwwroot/__oryx_packages__.
+2025-11-17T17:19:50.259563195Z /opt/python/3.11.14/bin/python: No module named uvicorn
+
+2025-11-17T17:49:04.365181140Z    _____                               
+2025-11-17T17:49:04.384565654Z   /  _  \ __________ _________   ____  
+2025-11-17T17:49:04.384578960Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2025-11-17T17:49:04.384581877Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2025-11-17T17:49:04.384583973Z \____|__  /_____ \____/ |__|    \___  >
+2025-11-17T17:49:04.384586245Z         \/      \/                  \/ 
+2025-11-17T17:49:04.384588231Z A P P   S E R V I C E   O N   L I N U X
+2025-11-17T17:49:04.384590208Z 
+2025-11-17T17:49:04.384591941Z Documentation    : http://aka.ms/webapp-linux
+2025-11-17T17:49:04.384593796Z Python quickstart: https://aka.ms/python-qs
+2025-11-17T17:49:04.384595626Z Python version   : 3.11.14
+2025-11-17T17:49:04.384597489Z Instance Name    : lw0sdlwk0000AV
+2025-11-17T17:49:04.384599423Z Instance Id      : 761a092c6cbeec305dbcc6c6e744b006c4d173d9d935c8e17cb6b4c751c4957e
+2025-11-17T17:49:04.384601372Z 
+2025-11-17T17:49:04.384603166Z Note: Any data outside '/home' is not persisted
+2025-11-17T17:49:06.796464187Z Starting OpenBSD Secure Shell server: sshd.
+2025-11-17T17:49:06.826087151Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2025-11-17T17:49:06.978509561Z Updating certificates in /etc/ssl/certs...
+2025-11-17T17:49:29.030145322Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2025-11-17T17:49:29.030188321Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_R46.pem
+2025-11-17T17:49:29.030192363Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2025-11-17T17:49:29.030195417Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_E46.pem
+2025-11-17T17:49:29.051512547Z 4 added, 0 removed; done.
+2025-11-17T17:49:29.051533861Z Running hooks in /etc/ca-certificates/update.d...
+2025-11-17T17:49:29.091035568Z done.
+2025-11-17T17:49:29.110612973Z CA certificates copied and updated successfully.
+2025-11-17T17:49:29.656378549Z Site's appCommandLine: python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:49:29.656403373Z 
+2025-11-17T17:49:29.665787301Z Launching oryx with: create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -virtualEnvName antenv -defaultApp /opt/defaultsite -userStartupCommand 'python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-17T17:49:29.665809864Z '
+2025-11-17T17:49:29.807216038Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2025-11-17T17:49:29.817453849Z Could not find operation ID in manifest. Generating an operation id...
+2025-11-17T17:49:29.817472491Z Build Operation ID: 7014cbc8-dcfd-4106-8188-ce63527f9d83
+2025-11-17T17:49:30.640487431Z Oryx Version: 0.2.20251017.2, Commit: 482d4c55e818733ab33b9d2131f9dc485a21fd03, ReleaseTagName: 20251017.2
+2025-11-17T17:49:30.751257202Z Writing output script to '/opt/startup/startup.sh'
+2025-11-17T17:49:30.904982104Z WARNING: Could not find virtual environment directory /home/site/wwwroot/antenv.
+2025-11-17T17:49:30.905008442Z WARNING: Could not find package directory /home/site/wwwroot/__oryx_packages__.
+2025-11-17T17:49:30.976477609Z /opt/python/3.11.14/bin/python: No module named uvicorn
+

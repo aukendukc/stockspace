@@ -1,0 +1,91 @@
+2025-11-17T11:48:06.7244892Z,Updating submodules.,c79101b0-979f-4491-8a97-2b3e75bf0ad4,0
+2025-11-17T11:48:07.8521132Z,Preparing deployment for commit id '185d2e2d-2'.,1c960221-844b-432c-9ce1-55dbbcc8105c,0
+2025-11-17T11:48:08.2192135Z,PreDeployment: context.CleanOutputPath False,4b24bba4-c7a4-46a8-a84a-7222660da9d4,0
+2025-11-17T11:48:08.3694983Z,PreDeployment: context.OutputPath /home/site/wwwroot,d05f1b7d-4173-4fa7-bf80-b3d5c38a80a9,0
+2025-11-17T11:48:08.6113884Z,Repository path is /tmp/zipdeploy/extracted,b0c9e7b1-fbc6-4770-b3cd-eae6a32c5676,0
+2025-11-17T11:48:08.7569994Z,Running oryx build...,58ba396c-2924-4773-b145-ff8b2ce70f02,0
+	2025-11-17T11:48:08.7610191Z,Command: oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform python --platform-version 3.11 -p virtualenv_name=antenv --log-file /tmp/build-debug.log  -i /tmp/8de25cf2d366592 --compress-destination-dir | tee /tmp/oryx-build.log,,0
+	2025-11-17T11:48:14.3897173Z,Operation performed by Microsoft Oryx&comma; https://github.com/Microsoft/Oryx,,0
+	2025-11-17T11:48:14.4904956Z,You can report issues at https://github.com/Microsoft/Oryx/issues,,0
+	2025-11-17T11:48:14.5298557Z,,,0
+	2025-11-17T11:48:14.5885390Z,Oryx Version: 0.2.20251022.1+bef98bc7139feefaa74be16de9d835e2c85385d4&comma; Commit: bef98bc7139feefaa74be16de9d835e2c85385d4&comma; ReleaseTagName: 20251022.1,,0
+	2025-11-17T11:48:14.7014638Z,,,0
+	2025-11-17T11:48:14.9606101Z,Build Operation ID: 0df8af9eced36803,,0
+	2025-11-17T11:48:15.0009300Z,Repository Commit : 185d2e2d-240b-4fed-941b-d15d0d6f06b6,,0
+	2025-11-17T11:48:15.0807457Z,OS Type           : bullseye,,0
+	2025-11-17T11:48:15.1635779Z,Image Type        : githubactions,,0
+	2025-11-17T11:48:15.2239624Z,,,0
+	2025-11-17T11:48:15.2629575Z,Primary SDK Storage URL: https://oryx-cdn.microsoft.io,,0
+	2025-11-17T11:48:15.2839204Z,Backup SDK Storage URL: ,,0
+	2025-11-17T11:48:15.3411966Z,Detecting platforms...,,0
+	2025-11-17T11:48:15.3910266Z,External SDK provider is enabled.,,0
+	2025-11-17T11:48:17.6731972Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2025-11-17T11:48:21.1208046Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2025-11-17T11:48:22.4800687Z,Successfully requested blob for platform nodejs&comma; blobName defaultVersion.bullseye.txt&comma; available at /var/OryxSdks/nodejs/defaultVersion.bullseye.txt,,0
+	2025-11-17T11:48:23.1232440Z,Requesting metadata for platform python from external SDK provider,,0
+	2025-11-17T11:48:23.7762057Z,Requesting metadata for platform python from external SDK provider,,0
+	2025-11-17T11:48:24.3779112Z,Successfully requested blob for platform python&comma; blobName defaultVersion.bullseye.txt&comma; available at /var/OryxSdks/python/defaultVersion.bullseye.txt,,0
+	2025-11-17T11:48:36.5498088Z,Detected following platforms:,,0
+	2025-11-17T11:48:36.6207253Z,  nodejs: 16.20.2,,0
+	2025-11-17T11:48:36.6818680Z,  python: 3.11.14,,0
+	2025-11-17T11:48:36.7405536Z,  java: 11.0.14,,0
+	2025-11-17T11:48:36.8214347Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2025-11-17T11:48:42.6715497Z,Successfully requested blob for platform nodejs&comma; blobName nodejs-bullseye-16.20.2.tar.gz&comma; available at /var/OryxSdks/nodejs/nodejs-bullseye-16.20.2.tar.gz,,0
+	2025-11-17T11:48:44.3209272Z,Version '16.20.2' of platform 'nodejs' is not installed. Generating script to install it...,,0
+	2025-11-17T11:48:44.5514711Z,Requesting metadata for platform python from external SDK provider,,0
+	2025-11-17T11:48:57.3545472Z,Successfully requested blob for platform python&comma; blobName python-bullseye-3.11.14.tar.gz&comma; available at /var/OryxSdks/python/python-bullseye-3.11.14.tar.gz,,0
+	2025-11-17T11:48:59.7077758Z,Version '3.11.14' of platform 'python' is not installed. Generating script to install it...,,0
+	2025-11-17T11:48:59.7851486Z,Version '11.0.14' of platform 'java' is not installed. Generating script to install it...,,0
+	2025-11-17T11:49:01.0129741Z,,,0
+	2025-11-17T11:49:01.2840991Z,Using intermediate directory '/tmp/8de25cf2d366592'.,,0
+	2025-11-17T11:49:01.3512120Z,,,0
+	2025-11-17T11:49:01.3714928Z,Copying files to the intermediate directory...,,0
+	2025-11-17T11:50:08.2563936Z,Done in 66 sec(s).,,0
+	2025-11-17T11:50:08.3276989Z,,,0
+	2025-11-17T11:50:08.3967903Z,Source directory     : /tmp/8de25cf2d366592,,0
+	2025-11-17T11:50:08.4498906Z,Destination directory: /home/site/wwwroot,,0
+	2025-11-17T11:50:08.4783174Z,,,0
+	2025-11-17T11:50:08.5194219Z,,,0
+	2025-11-17T11:50:08.5302292Z,Downloading and extracting 'nodejs' version '16.20.2' to '/tmp/oryx/platforms/nodejs/16.20.2'...,,0
+	2025-11-17T11:50:08.5478468Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T11:50:08.5586987Z,Skipping download of nodejs version 16.20.2 as it is available in external sdk provider cache...,,0
+	2025-11-17T11:50:08.6089439Z,Extracting contents...,,0
+	2025-11-17T11:50:15.2278963Z,Successfully extracted nodejs version 16.20.2 from external sdk provider cache...,,0
+	2025-11-17T11:50:15.3178115Z,Done in 7 sec(s).,,0
+	2025-11-17T11:50:15.3875089Z,,,0
+	2025-11-17T11:50:15.4278714Z,,,0
+	2025-11-17T11:50:15.4684904Z,Downloading and extracting 'python' version '3.11.14' to '/tmp/oryx/platforms/python/3.11.14'...,,0
+	2025-11-17T11:50:15.5780321Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T11:50:15.6193811Z,Skipping download of python version 3.11.14 as it is available in external sdk provider cache...,,0
+	2025-11-17T11:50:15.6586924Z,Extracting contents...,,0
+	2025-11-17T11:50:33.4947483Z,Successfully extracted python version 3.11.14 from external sdk provider cache...,,0
+	2025-11-17T11:50:33.5524456Z,Done in 18 sec(s).,,0
+	2025-11-17T11:50:33.7040439Z,,,0
+	2025-11-17T11:50:33.7453597Z,image detector file exists&comma; platform is python..,,0
+	2025-11-17T11:50:33.7640452Z,OS detector file exists&comma; OS is bullseye..,,0
+	2025-11-17T11:50:33.7937635Z,,,0
+	2025-11-17T11:50:33.8069025Z,Downloading and extracting 'java' version '11.0.14' to '/tmp/oryx/platforms/java/11.0.14'...,,0
+	2025-11-17T11:50:33.8263327Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T11:50:39.9510470Z,Downloaded in 6 sec(s).,,0
+	2025-11-17T11:50:40.3716591Z,Verifying checksum...,,0
+	2025-11-17T11:50:40.5149389Z,Extracting contents...,,0
+	2025-11-17T11:50:53.2366584Z,performing sha512 checksum for: java...,,0
+	2025-11-17T11:50:58.8648293Z,Done in 25 sec(s).,,0
+	2025-11-17T11:50:59.0049251Z,,,0
+	2025-11-17T11:50:59.1153691Z,,,0
+	2025-11-17T11:50:59.1774332Z,Downloading and extracting 'maven' version '3.8.5' to '/tmp/oryx/platforms/maven/3.8.5'...,,0
+	2025-11-17T11:50:59.2457878Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T11:50:59.7798255Z,Downloaded in 0 sec(s).,,0
+	2025-11-17T11:50:59.8589304Z,Verifying checksum...,,0
+	2025-11-17T11:50:59.9398094Z,Extracting contents...,,0
+	2025-11-17T11:51:01.0351634Z,performing sha512 checksum for: maven...,,0
+	2025-11-17T11:51:01.3777422Z,Done in 3 sec(s).,,0
+	2025-11-17T11:51:01.6084027Z,,,0
+	2025-11-17T11:51:02.5957789Z,Python Version: /tmp/oryx/platforms/python/3.11.14/bin/python3.11,,0
+	2025-11-17T11:51:02.6842472Z,Creating directory for command manifest file if it does not exist,,0
+	2025-11-17T11:51:02.7368984Z,Removing existing manifest file,,0
+	2025-11-17T11:51:02.8248728Z,Python Virtual Environment: antenv,,0
+	2025-11-17T11:51:02.9164409Z,Creating virtual environment...,,0
+	2025-11-17T11:51:02.9668569Z,Executing: /tmp/oryx/platforms/python/3.11.14/bin/python3.11 -m venv antenv --copies --system-site-packages,,0
+	2025-11-17T11:51:21.8229730Z,Activating virtual environment...,,0
+	2025-11-17T11:51:21.8924021Z,Running pip install...,,0

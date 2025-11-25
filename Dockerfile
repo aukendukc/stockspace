@@ -21,8 +21,10 @@ EXPOSE 8080
 # 環境変数設定
 ENV PYTHONUNBUFFERED=1
 
-# 起動コマンド
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+# 起動コマンド（Azure App ServiceのPORT環境変数を使用）
+# PORT環境変数が設定されていない場合は8080を使用
+CMD sh -c "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"
+
 
 
 

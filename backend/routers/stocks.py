@@ -1,10 +1,11 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from backend.database import SessionLocal
 from backend import models, schemas
-from backend.services.stock_data import fetch_stock_data
+from backend.services.stock_data import fetch_stock_data, fetch_stock_data_detailed
 
 router = APIRouter(prefix="/stocks", tags=["stocks"])
 
@@ -18,17 +19,86 @@ def get_db():
 
 
 @router.get("", response_model=List[schemas.StockResponse])
-def get_stocks(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    stocks = db.query(models.Stock).offset(skip).limit(limit).all()
-    return stocks
+def get_stocks(
+    skip: int = 0,
+    limit: int = 100,
+    search: Optional[str] = Query(None, description="銘柄コードまたは名前で検索（必須）"),
+    db: Session = Depends(get_db)
+):
+    """
+    銘柄を検索。常にネットからリアルタイムで取得します。
+    searchパラメータが必須です。
+    """
+    if not search:
+        # 検索クエリがない場合は空のリストを返す
+        return []
+    
+    # 常にネットからリアルタイムで取得
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    if search.isdigit():
+        # 銘柄コードで検索
+        logger.info(f"Searching for stock: {search}")
+        realtime_data = fetch_stock_data_detailed(search)
+        if realtime_data:
+            logger.info(f"Found stock: {realtime_data.get('name')} ({realtime_data.get('symbol')})")
+            return [schemas.StockResponse(
+                id=0,
+                symbol=realtime_data["symbol"],
+                name=realtime_data["name"],
+                price=realtime_data["price"] or 0,
+                change=realtime_data["change"] or 0,
+                change_pct=realtime_data["change_pct"] or 0,
+                high=realtime_data.get("high"),
+                low=realtime_data.get("low"),
+                per=realtime_data.get("per"),
+                pbr=realtime_data.get("pbr"),
+                dividend_yield=realtime_data.get("dividend_yield"),
+                dividend_payout_ratio=realtime_data.get("dividend_payout_ratio"),
+                market_cap=realtime_data.get("market_cap"),
+                revenue=realtime_data.get("revenue"),
+                profit=realtime_data.get("profit"),
+                updated_at=None,
+            )]
+        else:
+            logger.warning(f"Stock not found: {search}")
+            raise HTTPException(status_code=404, detail=f"銘柄が見つかりませんでした: {search}")
+    
+    # 名前で検索する場合は、データベースを参照せず空を返す
+    # （yfinanceでは名前検索ができないため）
+    raise HTTPException(status_code=400, detail="銘柄コード（数字）で検索してください")
 
 
 @router.get("/{symbol}", response_model=schemas.StockResponse)
 def get_stock(symbol: str, db: Session = Depends(get_db)):
-    stock = db.query(models.Stock).filter(models.Stock.symbol == symbol).first()
-    if not stock:
+    """
+    銘柄の詳細情報を取得。常にネットからリアルタイムで取得します。
+    """
+    # 常にネットからリアルタイムで取得
+    realtime_data = fetch_stock_data_detailed(symbol)
+    if not realtime_data:
         raise HTTPException(status_code=404, detail="Stock not found")
-    return stock
+    
+    # リアルタイムデータをStockResponse形式に変換
+    return schemas.StockResponse(
+        id=0,
+        symbol=realtime_data["symbol"],
+        name=realtime_data["name"],
+        price=realtime_data["price"] or 0,
+        change=realtime_data["change"] or 0,
+        change_pct=realtime_data["change_pct"] or 0,
+        high=realtime_data.get("high"),
+        low=realtime_data.get("low"),
+        per=realtime_data.get("per"),
+        pbr=realtime_data.get("pbr"),
+        dividend_yield=realtime_data.get("dividend_yield"),
+        dividend_payout_ratio=realtime_data.get("dividend_payout_ratio"),
+        market_cap=realtime_data.get("market_cap"),
+        revenue=realtime_data.get("revenue"),
+        profit=realtime_data.get("profit"),
+        updated_at=None,
+    )
 
 
 @router.post("", response_model=schemas.StockResponse)
@@ -101,6 +171,35 @@ def refresh_stocks(
 
     db.commit()
     return {"updated": updated}
+
+
+@router.delete("/all")
+def delete_all_stocks(db: Session = Depends(get_db)):
+    """
+    データベースに保存されている全銘柄を削除します。
+    これ以降、すべての銘柄情報はネットからリアルタイムで取得されます。
+    """
+    try:
+        deleted_count = db.query(models.Stock).delete()
+        db.commit()
+        return {"message": f"Deleted {deleted_count} stocks from database", "deleted": deleted_count}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Error deleting stocks: {str(e)}")
+
+
+@router.delete("/{symbol}")
+def delete_stock(symbol: str, db: Session = Depends(get_db)):
+    """
+    指定された銘柄をデータベースから削除します。
+    """
+    stock = db.query(models.Stock).filter(models.Stock.symbol == symbol).first()
+    if not stock:
+        raise HTTPException(status_code=404, detail="Stock not found in database")
+    
+    db.delete(stock)
+    db.commit()
+    return {"message": f"Stock {symbol} deleted from database"}
 
 
 @router.put("/{symbol}", response_model=schemas.StockResponse)

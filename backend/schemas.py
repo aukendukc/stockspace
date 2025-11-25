@@ -48,7 +48,7 @@ class StockCreate(StockBase):
 
 class StockResponse(StockCreate):
     id: int
-    updated_at: datetime
+    updated_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
 
@@ -63,6 +63,13 @@ class PostBase(BaseModel):
 
 class PostCreate(PostBase):
     pass
+
+
+class BotPostCreate(BaseModel):
+    text: str
+    stock_symbol: Optional[str] = None
+    chart_image_url: Optional[str] = None
+    event: Optional[str] = None
 
 
 class PostResponse(PostBase):
@@ -152,3 +159,7 @@ class CommentResponse(CommentBase):
     updated_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
+
+
+class UserIconUpdate(BaseModel):
+    icon_url: str

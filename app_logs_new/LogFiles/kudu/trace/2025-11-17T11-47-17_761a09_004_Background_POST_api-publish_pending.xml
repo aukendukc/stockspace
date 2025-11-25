@@ -1,0 +1,25 @@
+<step title="BackgroundTrace" date="2025-11-17T11:47:17.021" instance="761a09" url="/api/publish" method="POST" >
+  <step title="Cleanup Xml Logs" date="2025-11-17T11:47:17.050" /><!-- duration: 31ms -->
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2025-11-17T11:47:17.291" /><!-- duration: 11ms -->
+  <step title="Creating temporary deployment" date="2025-11-17T11:47:17.312" /><!-- duration: 178ms -->
+  <step title="Performing fetch based deployment" date="2025-11-17T11:47:17.662" >
+    <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/ec7b2538-df13-4835-a017-8247baed771b.zip (139.54 MB) to /tmp/zipdeploy/extracted" date="2025-11-17T11:47:19.382" >
+      <step title="ChmodRecursive Process exited with total time taken in ms: 309" date="2025-11-17T11:48:04.267" /><!-- duration: 11ms -->
+    </step><!-- duration: 44927ms -->
+    <step title="Deployment timer started" date="2025-11-17T11:48:06.417" >
+      <step title="DeploymentManager.Deploy(id:185d2e2d-240b-4fed-941b-d15d0d6f06b6)" date="2025-11-17T11:48:06.428" >
+        <step title="Collecting changeset information" date="2025-11-17T11:48:06.476" /><!-- duration: 117ms -->
+        <step title="Updating submodules" date="2025-11-17T11:48:06.597" /><!-- duration: 1136ms -->
+        <step title="Determining deployment builder" date="2025-11-17T11:48:07.982" >
+          <step title="Builder is OryxBuilder" date="2025-11-17T11:48:08.005" /><!-- duration: 9ms -->
+        </step><!-- duration: 34ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2025-11-17T11:48:08.089" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2025-11-17T11:48:08.222" >
+            <step title="Building" date="2025-11-17T11:48:08.458" >
+              <step title="Executing external process" date="2025-11-17T11:48:08.824" type="process" path="bash" arguments="-c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform python --platform-version 3.11 -p virtualenv_name=antenv --log-file /tmp/build-debug.log  -i /tmp/8de25cf2d366592 --compress-destination-dir | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" >
+                <step title="Cpu: rsync(891,8.270s)+rsync(890,1.580s)+rsync(889,7.670s)+build.sh(885,0.000s)+oryx(852,11.080s)+tee(853,0.000s)+bash(851,0.000s)=total(28.600s)" date="2025-11-17T11:50:03.768" /><!-- duration: 70ms -->
+                <step title="bash: no io activity for 60s, prev-cpu=-1.000s, current-cpu=28.600s" date="2025-11-17T11:50:03.966" /><!-- duration: 170ms -->
+                <step title="Cpu: cc1(1187,3.400s)+gcc(1186,0.000s)+python(1179,0.730s)+python(1092,24.500s)+ts(1093,0.160s)+build.sh(1091,0.000s)+build.sh(1090,0.000s)+build.sh(885,0.100s)+oryx(852,12.530s)+tee(853,0.010s)+bash(851,0.000s)=total(41.410s)" date="2025-11-17T11:52:22.706" /><!-- duration: 119ms -->
+                <step title="bash: no io activity for 60s, prev-cpu=-1.000s, current-cpu=41.410s" date="2025-11-17T11:52:23.236" /><!-- duration: 232ms -->
+                <step title="Cpu: cc1(1187,20.970s)+gcc(1186,0.000s)+python(1179,0.730s)+python(1092,24.500s)+ts(1093,0.160s)+build.sh(1091,0.000s)+build.sh(1090,0.000s)+build.sh(885,0.100s)+oryx(852,13.010s)+tee(853,0.010s)+bash(851,0.000s)=total(59.450s)" date="2025-11-17T11:53:24.371" /><!-- duration: 30ms -->
+                <step title="bash: no io activity for 122s, prev-cpu=41.410s, current-cpu=59.450s" date="2025-11-17T11:53:24.450" /><!-- duration: 21ms -->

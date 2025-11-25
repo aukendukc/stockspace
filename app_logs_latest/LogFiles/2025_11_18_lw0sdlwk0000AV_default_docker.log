@@ -1,0 +1,108 @@
+2025-11-18T00:36:36.401588273Z    _____                               
+2025-11-18T00:36:36.402842907Z   /  _  \ __________ _________   ____  
+2025-11-18T00:36:36.402846971Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2025-11-18T00:36:36.402849468Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2025-11-18T00:36:36.402851501Z \____|__  /_____ \____/ |__|    \___  >
+2025-11-18T00:36:36.402853701Z         \/      \/                  \/ 
+2025-11-18T00:36:36.402855923Z A P P   S E R V I C E   O N   L I N U X
+2025-11-18T00:36:36.402857877Z 
+2025-11-18T00:36:36.402859585Z Documentation    : http://aka.ms/webapp-linux
+2025-11-18T00:36:36.402861573Z Python quickstart: https://aka.ms/python-qs
+2025-11-18T00:36:36.402863370Z Python version   : 3.11.14
+2025-11-18T00:36:36.402865287Z Instance Name    : lw0sdlwk0000AV
+2025-11-18T00:36:36.402867144Z Instance Id      : 761a092c6cbeec305dbcc6c6e744b006c4d173d9d935c8e17cb6b4c751c4957e
+2025-11-18T00:36:36.402869096Z 
+2025-11-18T00:36:36.402870847Z Note: Any data outside '/home' is not persisted
+2025-11-18T00:36:38.354198854Z Starting OpenBSD Secure Shell server: sshd.
+2025-11-18T00:36:38.384597068Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2025-11-18T00:36:38.665224378Z Updating certificates in /etc/ssl/certs...
+2025-11-18T00:37:00.963795482Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2025-11-18T00:37:00.964942327Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_R46.pem
+2025-11-18T00:37:00.992834951Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2025-11-18T00:37:00.994519777Z rehash: warning: skipping duplicate certificate in azl_Sectigo_Public_Server_Authentication_Root_E46.pem
+2025-11-18T00:37:01.055367184Z 4 added, 0 removed; done.
+2025-11-18T00:37:01.063848627Z Running hooks in /etc/ca-certificates/update.d...
+2025-11-18T00:37:01.093405495Z done.
+2025-11-18T00:37:01.114819060Z CA certificates copied and updated successfully.
+2025-11-18T00:37:01.254324107Z Site's appCommandLine: python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-18T00:37:01.254347381Z 
+2025-11-18T00:37:01.256144171Z Launching oryx with: create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -virtualEnvName antenv -defaultApp /opt/defaultsite -userStartupCommand 'python -m uvicorn main:app --host 0.0.0.0 --port 8000
+2025-11-18T00:37:01.256176105Z '
+2025-11-18T00:37:01.484363477Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2025-11-18T00:37:01.484399556Z Could not find operation ID in manifest. Generating an operation id...
+2025-11-18T00:37:01.484402775Z Build Operation ID: 24dd96d1-e8cb-4cf1-bff1-82cc902e6db9
+2025-11-18T00:37:02.227958660Z Oryx Version: 0.2.20251017.2, Commit: 482d4c55e818733ab33b9d2131f9dc485a21fd03, ReleaseTagName: 20251017.2
+2025-11-18T00:37:02.367509074Z Writing output script to '/opt/startup/startup.sh'
+2025-11-18T00:37:02.549402757Z WARNING: Could not find virtual environment directory /home/site/wwwroot/antenv.
+2025-11-18T00:37:02.549427383Z WARNING: Could not find package directory /home/site/wwwroot/__oryx_packages__.
+2025-11-18T00:37:02.990126046Z /opt/python/3.11.14/bin/python: No module named uvicorn
+
+2025-11-18T01:04:09.243661373Z Traceback (most recent call last):
+2025-11-18T01:04:09.260893424Z   File "<frozen runpy>", line 198, in _run_module_as_main
+2025-11-18T01:04:09.260924181Z   File "<frozen runpy>", line 88, in _run_code
+2025-11-18T01:04:09.260927140Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+2025-11-18T01:04:09.260929535Z     uvicorn.main()
+2025-11-18T01:04:09.260931425Z   File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1485, in __call__
+2025-11-18T01:04:09.260933695Z     return self.main(*args, **kwargs)
+2025-11-18T01:04:09.260935765Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.260937737Z   File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1406, in main
+2025-11-18T01:04:09.262928934Z     rv = self.invoke(ctx)
+2025-11-18T01:04:09.262955286Z          ^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.262958169Z   File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1269, in invoke
+2025-11-18T01:04:09.262960538Z     return ctx.invoke(self.callback, **ctx.params)
+2025-11-18T01:04:09.262962780Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.262964922Z   File "/usr/local/lib/python3.11/site-packages/click/core.py", line 824, in invoke
+2025-11-18T01:04:09.262966982Z     return callback(*args, **kwargs)
+2025-11-18T01:04:09.262968747Z            ^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.262970646Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 423, in main
+2025-11-18T01:04:09.273928264Z     run(
+2025-11-18T01:04:09.273952193Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 593, in run
+2025-11-18T01:04:09.273955228Z     server.run()
+2025-11-18T01:04:09.273957309Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+2025-11-18T01:04:09.273959476Z     return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+2025-11-18T01:04:09.273961537Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.273963587Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/_compat.py", line 30, in asyncio_run
+2025-11-18T01:04:09.282025791Z     return runner.run(main)
+2025-11-18T01:04:09.282053706Z            ^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.282056359Z   File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+2025-11-18T01:04:09.291338472Z     return self._loop.run_until_complete(task)
+2025-11-18T01:04:09.291359597Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.291362207Z   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+2025-11-18T01:04:09.291364375Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+2025-11-18T01:04:09.291384598Z     await self._serve(sockets)
+2025-11-18T01:04:09.291386815Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+2025-11-18T01:04:09.292007603Z     config.load()
+2025-11-18T01:04:09.292246021Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 439, in load
+2025-11-18T01:04:09.293468927Z     self.loaded_app = import_from_string(self.app)
+2025-11-18T01:04:09.294271117Z                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.294280062Z   File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+2025-11-18T01:04:09.294282737Z     module = importlib.import_module(module_str)
+2025-11-18T01:04:09.301349676Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.301367478Z   File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+2025-11-18T01:04:09.302353239Z     return _bootstrap._gcd_import(name[level:], package, level)
+2025-11-18T01:04:09.304111935Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.304121198Z   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+2025-11-18T01:04:09.304124200Z   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+2025-11-18T01:04:09.304126458Z   File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+2025-11-18T01:04:09.304128749Z   File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+2025-11-18T01:04:09.304130776Z   File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+2025-11-18T01:04:09.304132917Z   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+2025-11-18T01:04:09.304135141Z   File "/app/main.py", line 4, in <module>
+2025-11-18T01:04:09.312928570Z     from backend.database import engine, Base
+2025-11-18T01:04:09.313476354Z   File "/app/backend/database.py", line 21, in <module>
+2025-11-18T01:04:09.321974969Z     engine = create_engine(
+2025-11-18T01:04:09.323302030Z              ^^^^^^^^^^^^^^
+2025-11-18T01:04:09.323311439Z   File "<string>", line 2, in create_engine
+2025-11-18T01:04:09.323314414Z   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/deprecations.py", line 281, in warned
+2025-11-18T01:04:09.324076981Z     return fn(*args, **kwargs)  # type: ignore[no-any-return]
+2025-11-18T01:04:09.332556085Z            ^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.333052335Z   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/create.py", line 546, in create_engine
+2025-11-18T01:04:09.342105124Z     u = _url.make_url(url)
+2025-11-18T01:04:09.342124661Z         ^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.342127323Z   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/url.py", line 842, in make_url
+2025-11-18T01:04:09.344147063Z     return _parse_url(name_or_url)
+2025-11-18T01:04:09.344156916Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2025-11-18T01:04:09.344159291Z   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/url.py", line 908, in _parse_url
+2025-11-18T01:04:09.351405196Z     raise exc.ArgumentError(
+2025-11-18T01:04:09.351423144Z sqlalchemy.exc.ArgumentError: Could not parse SQLAlchemy URL from string '.\setup_stockspace_api_01.ps1'
+

@@ -25,3 +25,8 @@ az webapp log tail `
 
 
 
+
+
+
+
+

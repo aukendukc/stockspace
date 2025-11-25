@@ -1,5 +1,6 @@
+import os
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Header
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from backend.database import SessionLocal
@@ -7,6 +8,8 @@ from backend import models, schemas
 from backend.auth import get_current_user
 
 router = APIRouter(prefix="/posts", tags=["posts"])
+BOT_API_KEY = os.getenv("BOT_API_KEY")
+BOT_USER_ID = os.getenv("BOT_USER_ID")
 
 
 def get_db():
@@ -33,36 +36,8 @@ def create_post(
     db.add(db_post)
     db.commit()
     db.refresh(db_post)
-    
-    # リレーションを読み込む
-    db.refresh(db_post, ["user", "stock"])
-    
-    # カウントを取得
-    likes_count = db.query(func.count(models.Like.id)).filter(
-        models.Like.post_id == db_post.id
-    ).scalar() or 0
-    retweets_count = db.query(func.count(models.Retweet.id)).filter(
-        models.Retweet.post_id == db_post.id
-    ).scalar() or 0
-    comments_count = db.query(func.count(models.Comment.id)).filter(
-        models.Comment.post_id == db_post.id
-    ).scalar() or 0
-    
-    response = schemas.PostResponse(
-        id=db_post.id,
-        user_id=db_post.user_id,
-        text=db_post.text,
-        post_type=db_post.post_type,
-        stock_id=db_post.stock_id,
-        chart_image_url=db_post.chart_image_url,
-        created_at=db_post.created_at,
-        user=schemas.UserResponse.model_validate(db_post.user),
-        stock=schemas.StockResponse.model_validate(db_post.stock) if db_post.stock else None,
-        likes_count=likes_count,
-        retweets_count=retweets_count,
-        comments_count=comments_count,
-    )
-    return response
+
+    return serialize_post(db_post, db)
 
 
 @router.get("", response_model=List[schemas.PostResponse])
@@ -81,35 +56,7 @@ def get_posts(
         query = query.filter(models.Post.user_id == user_id)
     
     posts = query.order_by(models.Post.created_at.desc()).offset(skip).limit(limit).all()
-    
-    result = []
-    for post in posts:
-        likes_count = db.query(func.count(models.Like.id)).filter(
-            models.Like.post_id == post.id
-        ).scalar() or 0
-        retweets_count = db.query(func.count(models.Retweet.id)).filter(
-            models.Retweet.post_id == post.id
-        ).scalar() or 0
-        comments_count = db.query(func.count(models.Comment.id)).filter(
-            models.Comment.post_id == post.id
-        ).scalar() or 0
-        
-        result.append(schemas.PostResponse(
-            id=post.id,
-            user_id=post.user_id,
-            text=post.text,
-            post_type=post.post_type,
-            stock_id=post.stock_id,
-            chart_image_url=post.chart_image_url,
-            created_at=post.created_at,
-            user=schemas.UserResponse.model_validate(post.user),
-            stock=schemas.StockResponse.model_validate(post.stock) if post.stock else None,
-            likes_count=likes_count,
-            retweets_count=retweets_count,
-            comments_count=comments_count,
-        ))
-    
-    return result
+    return [serialize_post(post, db) for post in posts]
 
 
 @router.get("/{post_id}", response_model=schemas.PostResponse)
@@ -118,30 +65,7 @@ def get_post(post_id: int, db: Session = Depends(get_db)):
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     
-    likes_count = db.query(func.count(models.Like.id)).filter(
-        models.Like.post_id == post.id
-    ).scalar() or 0
-    retweets_count = db.query(func.count(models.Retweet.id)).filter(
-        models.Retweet.post_id == post.id
-    ).scalar() or 0
-    comments_count = db.query(func.count(models.Comment.id)).filter(
-        models.Comment.post_id == post.id
-    ).scalar() or 0
-    
-    return schemas.PostResponse(
-        id=post.id,
-        user_id=post.user_id,
-        text=post.text,
-        post_type=post.post_type,
-        stock_id=post.stock_id,
-        chart_image_url=post.chart_image_url,
-        created_at=post.created_at,
-        user=schemas.UserResponse.model_validate(post.user),
-        stock=schemas.StockResponse.model_validate(post.stock) if post.stock else None,
-        likes_count=likes_count,
-        retweets_count=retweets_count,
-        comments_count=comments_count,
-    )
+    return serialize_post(post, db)
 
 
 @router.delete("/{post_id}")
@@ -346,3 +270,132 @@ def delete_comment(
     db.delete(db_comment)
     db.commit()
     return {"message": "Comment deleted"}
+
+
+@router.post("/bot/publish", response_model=schemas.PostResponse)
+def publish_bot_post(
+    payload: schemas.BotPostCreate,
+    x_bot_key: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    enforce_bot_key(x_bot_key)
+    bot_user = get_bot_user(db)
+
+    stock = None
+    if payload.stock_symbol:
+        stock = db.query(models.Stock).filter(models.Stock.symbol == payload.stock_symbol).first()
+        if not stock:
+            raise HTTPException(status_code=404, detail="Stock not found")
+
+    text = payload.text
+    if payload.event and stock:
+        text = f"[{payload.event}] {stock.name}({stock.symbol}) {payload.text}"
+
+    db_post = models.Post(
+        user_id=bot_user.id,
+        text=text,
+        post_type="bot",
+        stock_id=stock.id if stock else None,
+        chart_image_url=payload.chart_image_url,
+    )
+    db.add(db_post)
+    db.commit()
+    db.refresh(db_post)
+
+    return serialize_post(db_post, db)
+
+
+@router.post("/bot/summary", response_model=schemas.PostResponse)
+def publish_market_summary(
+    x_bot_key: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    enforce_bot_key(x_bot_key)
+    bot_user = get_bot_user(db)
+
+    top_gainer = (
+        db.query(models.Stock)
+        .filter(models.Stock.change_pct.isnot(None))
+        .order_by(models.Stock.change_pct.desc())
+        .first()
+    )
+    top_loser = (
+        db.query(models.Stock)
+        .filter(models.Stock.change_pct.isnot(None))
+        .order_by(models.Stock.change_pct.asc())
+        .first()
+    )
+
+    if not top_gainer:
+        raise HTTPException(status_code=404, detail="No stocks available")
+
+    summary_lines = ["📊 今日のマーケットダイジェスト"]
+    summary_lines.append(
+        f"📈 {top_gainer.name}({top_gainer.symbol}) {top_gainer.change_pct:.2f}% / ¥{top_gainer.price:,.0f}"
+    )
+
+    if top_loser and top_loser.id != top_gainer.id:
+        summary_lines.append(
+            f"📉 {top_loser.name}({top_loser.symbol}) {top_loser.change_pct:.2f}% / ¥{top_loser.price:,.0f}"
+        )
+
+    text = "\n".join(summary_lines)
+
+    db_post = models.Post(
+        user_id=bot_user.id,
+        text=text,
+        post_type="bot",
+        stock_id=top_gainer.id,
+    )
+    db.add(db_post)
+    db.commit()
+    db.refresh(db_post)
+
+    return serialize_post(db_post, db)
+
+
+def serialize_post(post: models.Post, db: Session) -> schemas.PostResponse:
+    db.refresh(post, ["user", "stock"])
+
+    likes_count = db.query(func.count(models.Like.id)).filter(
+        models.Like.post_id == post.id
+    ).scalar() or 0
+    retweets_count = db.query(func.count(models.Retweet.id)).filter(
+        models.Retweet.post_id == post.id
+    ).scalar() or 0
+    comments_count = db.query(func.count(models.Comment.id)).filter(
+        models.Comment.post_id == post.id
+    ).scalar() or 0
+
+    return schemas.PostResponse(
+        id=post.id,
+        user_id=post.user_id,
+        text=post.text,
+        post_type=post.post_type,
+        stock_id=post.stock_id,
+        chart_image_url=post.chart_image_url,
+        created_at=post.created_at,
+        user=schemas.UserResponse.model_validate(post.user),
+        stock=schemas.StockResponse.model_validate(post.stock) if post.stock else None,
+        likes_count=likes_count,
+        retweets_count=retweets_count,
+        comments_count=comments_count,
+    )
+
+
+def enforce_bot_key(header_value: Optional[str]):
+    if BOT_API_KEY and header_value != BOT_API_KEY:
+        raise HTTPException(status_code=403, detail="Invalid bot key")
+
+
+def get_bot_user(db: Session) -> models.User:
+    if not BOT_USER_ID:
+        raise HTTPException(status_code=500, detail="BOT_USER_ID is not configured")
+    try:
+        bot_id = int(BOT_USER_ID)
+    except ValueError:
+        raise HTTPException(status_code=500, detail="BOT_USER_ID must be an integer")
+    bot_user = db.query(models.User).filter(models.User.id == bot_id).first()
+    if not bot_user:
+        raise HTTPException(status_code=404, detail="Bot user not found")
+    return bot_user

@@ -30,3 +30,8 @@ Write-Host "Done! Wait 2-3 minutes then check: https://stockspace-api.azurewebsi
 
 
 
+
+
+
+
+

@@ -241,3 +241,8 @@ az webapp log show --resource-group stockspace-rg --name stockspace-api
 
 
 
+
+
+
+
+

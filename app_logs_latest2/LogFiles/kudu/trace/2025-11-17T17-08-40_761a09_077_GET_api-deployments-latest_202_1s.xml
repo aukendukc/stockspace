@@ -1,0 +1,8 @@
+<step title="Incoming Request" date="2025-11-17T17:08:40.011" instance="761a09" url="/api/deployments/latest?deployer=ms-azuretools-vscode&amp;time=2025-11-17_17-07-29Z" method="GET" type="request" pid="772,1,19" Host="stockspace-api-01-hgf2e5hxemcwckef.scm.japaneast-01.azurewebsites.net" User-Agent="vscode-azureappservice/0.26.4 core-rest-pipeline/1.20.0 Node/22.20.0 OS/(x64-Windows_NT-10.0.26200)" Accept-Encoding="gzip,deflate" Accept-Language="en" Authorization="Bea..." x-ms-correlation-request-id="371bc9a9-33ab-4fb6-8a62-e8742bde3d54" x-ms-client-request-id="7dc7e1dc-c150-4291-8af6-b67b00632ec8" X-ARR-LOG-ID="7dc7e1dc-c150-4291-8af6-b67b00632ec8" CLIENT-IP="133.106.44.238:47669" X-SITE-DEPLOYMENT-ID="stockspace-api-01" WAS-DEFAULT-HOSTNAME="stockspace-api-01-hgf2e5hxemcwckef.scm.japaneast-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest?deployer=ms-azuretools-vscode&amp;time=2025-11-17_17-07-29Z" X-Client-IP="133.106.44.238" X-Client-Port="47669" >
+  <step title="DeploymentService.GetResult" date="2025-11-17T17:08:40.040" >
+    <step title="DeploymentService.GetLatestDeployment" date="2025-11-17T17:08:40.099" >
+      <step title="DeploymentManager.GetResults" date="2025-11-17T17:08:40.103" /><!-- duration: 429ms -->
+    </step><!-- duration: 442ms -->
+  </step><!-- duration: 512ms -->
+  <step title="Outgoing response" date="2025-11-17T17:08:40.563" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 9ms -->
+</step><!-- duration: 571ms -->

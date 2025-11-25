@@ -1,0 +1,9 @@
+<step title="Incoming Request" date="2025-11-17T17:08:34.567" instance="761a09" url="/api/deployments/latest?deployer=ms-azuretools-vscode&amp;time=2025-11-17_17-07-29Z" method="GET" type="request" pid="772,1,19" Host="stockspace-api-01-hgf2e5hxemcwckef.scm.japaneast-01.azurewebsites.net" User-Agent="vscode-azureappservice/0.26.4 core-rest-pipeline/1.20.0 Node/22.20.0 OS/(x64-Windows_NT-10.0.26200)" Accept-Encoding="gzip,deflate" Accept-Language="en" Authorization="Bea..." x-ms-correlation-request-id="371bc9a9-33ab-4fb6-8a62-e8742bde3d54" x-ms-client-request-id="bf2006d5-79fa-4e29-b9c9-d99ca5822166" X-ARR-LOG-ID="bf2006d5-79fa-4e29-b9c9-d99ca5822166" CLIENT-IP="133.106.44.238:31966" X-SITE-DEPLOYMENT-ID="stockspace-api-01" WAS-DEFAULT-HOSTNAME="stockspace-api-01-hgf2e5hxemcwckef.scm.japaneast-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest?deployer=ms-azuretools-vscode&amp;time=2025-11-17_17-07-29Z" X-Client-IP="133.106.44.238" X-Client-Port="31966" >
+  <step title="Cleanup Xml Logs" date="2025-11-17T17:08:34.569" /><!-- duration: 29ms -->
+  <step title="DeploymentService.GetResult" date="2025-11-17T17:08:34.650" >
+    <step title="DeploymentService.GetLatestDeployment" date="2025-11-17T17:08:34.668" >
+      <step title="DeploymentManager.GetResults" date="2025-11-17T17:08:34.670" /><!-- duration: 400ms -->
+    </step><!-- duration: 421ms -->
+  </step><!-- duration: 442ms -->
+  <step title="Outgoing response" date="2025-11-17T17:08:35.109" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 11ms -->
+</step><!-- duration: 555ms -->

@@ -1,0 +1,115 @@
+2025-11-17T17:09:11.0716774Z,Updating submodules.,de6147df-a18f-4676-b670-89fa0477adeb,0
+2025-11-17T17:09:12.2149497Z,Preparing deployment for commit id '54852bb6-b'.,a94cc3aa-0f7a-46e9-81be-6c6999e66adc,0
+2025-11-17T17:09:12.6512741Z,PreDeployment: context.CleanOutputPath False,6c710e3b-a995-433c-8c5d-8a2bd7f87840,0
+2025-11-17T17:09:12.7979817Z,PreDeployment: context.OutputPath /home/site/wwwroot,d3aa05e6-8196-4b38-bbb2-c8a8584ae577,0
+2025-11-17T17:09:12.9794489Z,Repository path is /tmp/zipdeploy/extracted,e94b5d40-297f-4aab-b8a9-987972189277,0
+2025-11-17T17:09:13.0986058Z,Running oryx build...,2e2f71b3-646b-4bbb-9d35-ab4d139a1b69,0
+	2025-11-17T17:09:13.1026431Z,Command: oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform python --platform-version 3.11 -p virtualenv_name=antenv --log-file /tmp/build-debug.log  -i /tmp/8de25fc07b69b1b --compress-destination-dir | tee /tmp/oryx-build.log,,0
+	2025-11-17T17:09:15.8428195Z,Operation performed by Microsoft Oryx&comma; https://github.com/Microsoft/Oryx,,0
+	2025-11-17T17:09:15.9026368Z,You can report issues at https://github.com/Microsoft/Oryx/issues,,0
+	2025-11-17T17:09:15.9626926Z,,,0
+	2025-11-17T17:09:16.0217515Z,Oryx Version: 0.2.20251022.1+bef98bc7139feefaa74be16de9d835e2c85385d4&comma; Commit: bef98bc7139feefaa74be16de9d835e2c85385d4&comma; ReleaseTagName: 20251022.1,,0
+	2025-11-17T17:09:16.0418063Z,,,0
+	2025-11-17T17:09:16.1014032Z,Build Operation ID: d504a46fc9e19cea,,0
+	2025-11-17T17:09:16.1528437Z,Repository Commit : 54852bb6-b006-49e8-94a9-3454a3e17d50,,0
+	2025-11-17T17:09:16.1937112Z,OS Type           : bullseye,,0
+	2025-11-17T17:09:16.2424905Z,Image Type        : githubactions,,0
+	2025-11-17T17:09:16.3029334Z,,,0
+	2025-11-17T17:09:16.3438621Z,Primary SDK Storage URL: https://oryx-cdn.microsoft.io,,0
+	2025-11-17T17:09:16.3636335Z,Backup SDK Storage URL: ,,0
+	2025-11-17T17:09:16.4230198Z,Detecting platforms...,,0
+	2025-11-17T17:09:16.4632776Z,External SDK provider is enabled.,,0
+	2025-11-17T17:09:16.8573446Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2025-11-17T17:09:21.6871878Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2025-11-17T17:09:23.6628103Z,Requesting metadata for platform python from external SDK provider,,0
+	2025-11-17T17:09:24.6963450Z,Requesting metadata for platform python from external SDK provider,,0
+	2025-11-17T17:09:44.8565976Z,Requesting metadata for platform php from external SDK provider,,0
+	2025-11-17T17:09:46.6973916Z,Requesting metadata for platform php from external SDK provider,,0
+	2025-11-17T17:09:48.2347942Z,Successfully requested blob for platform php&comma; blobName defaultVersion.bullseye.txt&comma; available at /var/OryxSdks/php/defaultVersion.bullseye.txt,,0
+	2025-11-17T17:09:48.3162208Z,Requesting metadata for platform php from external SDK provider,,0
+	2025-11-17T17:09:49.3002460Z,Requesting metadata for platform php from external SDK provider,,0
+	2025-11-17T17:09:50.2245718Z,Requesting metadata for platform php-composer from external SDK provider,,0
+	2025-11-17T17:09:51.2392348Z,Requesting metadata for platform php-composer from external SDK provider,,0
+	2025-11-17T17:09:52.3633562Z,Successfully requested blob for platform php-composer&comma; blobName defaultVersion.bullseye.txt&comma; available at /var/OryxSdks/php-composer/defaultVersion.bullseye.txt,,0
+	2025-11-17T17:09:58.2179907Z,Detected following platforms:,,0
+	2025-11-17T17:09:58.4662914Z,  nodejs: 16.20.2,,0
+	2025-11-17T17:09:58.5697127Z,  python: 3.11.14,,0
+	2025-11-17T17:09:58.8011791Z,  php: 8.0.30,,0
+	2025-11-17T17:09:59.0797145Z,  java: 11.0.14,,0
+	2025-11-17T17:09:59.4215355Z,Requesting metadata for platform nodejs from external SDK provider,,0
+	2025-11-17T17:10:10.4063995Z,Version '16.20.2' of platform 'nodejs' is not installed. Generating script to install it...,,0
+	2025-11-17T17:10:10.8399330Z,Requesting metadata for platform python from external SDK provider,,0
+	2025-11-17T17:10:22.7561708Z,Version '3.11.14' of platform 'python' is not installed. Generating script to install it...,,0
+	2025-11-17T17:10:22.8633466Z,Requesting metadata for platform php from external SDK provider,,0
+	2025-11-17T17:10:30.8185015Z,Successfully requested blob for platform php&comma; blobName php-bullseye-8.0.30.tar.gz&comma; available at /var/OryxSdks/php/php-bullseye-8.0.30.tar.gz,,0
+	2025-11-17T17:10:31.0597612Z,Requesting metadata for platform php-composer from external SDK provider,,0
+	2025-11-17T17:10:33.2774725Z,Successfully requested blob for platform php-composer&comma; blobName php-composer-bullseye-2.6.2.tar.gz&comma; available at /var/OryxSdks/php-composer/php-composer-bullseye-2.6.2.tar.gz,,0
+	2025-11-17T17:10:33.4277947Z,Version '8.0.30' of platform 'php' is not installed. Generating script to install it...,,0
+	2025-11-17T17:10:33.5282345Z,Version '11.0.14' of platform 'java' is not installed. Generating script to install it...,,0
+	2025-11-17T17:10:34.4922654Z,,,0
+	2025-11-17T17:10:34.7726971Z,Using intermediate directory '/tmp/8de25fc07b69b1b'.,,0
+	2025-11-17T17:10:34.8141246Z,,,0
+	2025-11-17T17:10:34.8547411Z,Copying files to the intermediate directory...,,0
+	2025-11-17T17:14:35.7995825Z,Done in 241 sec(s).,,0
+	2025-11-17T17:14:35.9781394Z,,,0
+	2025-11-17T17:14:36.0103955Z,Source directory     : /tmp/8de25fc07b69b1b,,0
+	2025-11-17T17:14:36.0381631Z,Destination directory: /home/site/wwwroot,,0
+	2025-11-17T17:14:36.1196025Z,,,0
+	2025-11-17T17:14:36.1613905Z,,,0
+	2025-11-17T17:14:36.2105470Z,Downloading and extracting 'nodejs' version '16.20.2' to '/tmp/oryx/platforms/nodejs/16.20.2'...,,0
+	2025-11-17T17:14:36.2879285Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T17:14:36.3765131Z,Skipping download of nodejs version 16.20.2 as it is available in external sdk provider cache...,,0
+	2025-11-17T17:14:36.4371110Z,Extracting contents...,,0
+	2025-11-17T17:14:42.3357589Z,Successfully extracted nodejs version 16.20.2 from external sdk provider cache...,,0
+	2025-11-17T17:14:42.4785422Z,Done in 7 sec(s).,,0
+	2025-11-17T17:14:42.5466054Z,,,0
+	2025-11-17T17:14:42.6462921Z,,,0
+	2025-11-17T17:14:42.7802041Z,Downloading and extracting 'python' version '3.11.14' to '/tmp/oryx/platforms/python/3.11.14'...,,0
+	2025-11-17T17:14:42.8406727Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T17:14:42.8886743Z,Skipping download of python version 3.11.14 as it is available in external sdk provider cache...,,0
+	2025-11-17T17:14:42.9288798Z,Extracting contents...,,0
+	2025-11-17T17:15:04.7851482Z,Successfully extracted python version 3.11.14 from external sdk provider cache...,,0
+	2025-11-17T17:15:04.8957227Z,Done in 22 sec(s).,,0
+	2025-11-17T17:15:05.0244846Z,,,0
+	2025-11-17T17:15:05.0860854Z,image detector file exists&comma; platform is python..,,0
+	2025-11-17T17:15:05.1241299Z,OS detector file exists&comma; OS is bullseye..,,0
+	2025-11-17T17:15:05.1570533Z,,,0
+	2025-11-17T17:15:05.2450300Z,Downloading and extracting 'php' version '8.0.30' to '/tmp/oryx/platforms/php/8.0.30'...,,0
+	2025-11-17T17:15:05.2846266Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T17:15:05.3853729Z,Skipping download of php version 8.0.30 as it is available in external sdk provider cache...,,0
+	2025-11-17T17:15:05.4666209Z,Extracting contents...,,0
+	2025-11-17T17:15:09.1810933Z,Successfully extracted php version 8.0.30 from external sdk provider cache...,,0
+	2025-11-17T17:15:09.2707799Z,Done in 4 sec(s).,,0
+	2025-11-17T17:15:09.3903738Z,,,0
+	2025-11-17T17:15:09.4211073Z,,,0
+	2025-11-17T17:15:09.4717852Z,Downloading and extracting 'php-composer' version '2.6.2' to '/tmp/oryx/platforms/php-composer/2.6.2'...,,0
+	2025-11-17T17:15:09.5808222Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T17:15:09.9036189Z,Skipping download of php-composer version 2.6.2 as it is available in external sdk provider cache...,,0
+	2025-11-17T17:15:10.0239309Z,Extracting contents...,,0
+	2025-11-17T17:15:10.1355755Z,Successfully extracted php-composer version 2.6.2 from external sdk provider cache...,,0
+	2025-11-17T17:15:10.1947354Z,Done in 0 sec(s).,,0
+	2025-11-17T17:15:10.2545781Z,,,0
+	2025-11-17T17:15:10.2844219Z,,,0
+	2025-11-17T17:15:10.2949711Z,Downloading and extracting 'java' version '11.0.14' to '/tmp/oryx/platforms/java/11.0.14'...,,0
+	2025-11-17T17:15:10.3175562Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T17:15:14.6949966Z,Downloaded in 4 sec(s).,,0
+	2025-11-17T17:15:14.9258964Z,Verifying checksum...,,0
+	2025-11-17T17:15:14.9854874Z,Extracting contents...,,0
+	2025-11-17T17:16:06.1529745Z,performing sha512 checksum for: java...,,0
+	2025-11-17T17:16:12.4410863Z,Done in 63 sec(s).,,0
+	2025-11-17T17:16:13.3143489Z,,,0
+	2025-11-17T17:16:13.4952398Z,,,0
+	2025-11-17T17:16:13.7083095Z,Downloading and extracting 'maven' version '3.8.5' to '/tmp/oryx/platforms/maven/3.8.5'...,,0
+	2025-11-17T17:16:13.8588324Z,Detected image debian flavor: bullseye.,,0
+	2025-11-17T17:16:14.0073865Z,Downloaded in 1 sec(s).,,0
+	2025-11-17T17:16:14.0705433Z,Verifying checksum...,,0
+	2025-11-17T17:16:14.2587775Z,Extracting contents...,,0
+	2025-11-17T17:16:15.1155777Z,performing sha512 checksum for: maven...,,0
+	2025-11-17T17:16:15.4161664Z,Done in 3 sec(s).,,0
+	2025-11-17T17:16:15.4576577Z,,,0
+	2025-11-17T17:16:16.9327328Z,Python Version: /tmp/oryx/platforms/python/3.11.14/bin/python3.11,,0
+	2025-11-17T17:16:17.0131005Z,Creating directory for command manifest file if it does not exist,,0
+	2025-11-17T17:16:17.0836085Z,Removing existing manifest file,,0
+	2025-11-17T17:16:17.2440935Z,Python Virtual Environment: antenv,,0
+	2025-11-17T17:16:17.2972059Z,Creating virtual environment...,,0
+	2025-11-17T17:16:17.4053241Z,Executing: /tmp/oryx/platforms/python/3.11.14/bin/python3.11 -m venv antenv --copies --system-site-packages,,0

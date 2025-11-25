@@ -90,3 +90,16 @@ def login(
 def read_users_me(current_user: models.User = Depends(get_current_user)):
     return current_user
 
+
+@router.put("/me/icon", response_model=schemas.UserResponse)
+def update_profile_icon(
+    payload: schemas.UserIconUpdate,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    current_user.icon_url = payload.icon_url
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
+    return current_user
+

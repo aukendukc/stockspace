@@ -60,3 +60,8 @@ Write-Host "az webapp config appsettings list --resource-group stockspace-rg --n
 
 
 
+
+
+
+
+

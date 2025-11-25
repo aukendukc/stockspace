@@ -1,0 +1,9 @@
+<step title="Incoming Request" date="2025-11-17T11:49:02.095" instance="761a09" url="/api/deployments/latest?deployer=OneDeploy&amp;time=2025-11-17_11-47-17Z" method="GET" type="request" pid="768,1,19" Host="stockspace-api-01-hgf2e5hxemcwckef.scm.japaneast-01.azurewebsites.net" User-Agent="GITHUBACTIONS_DeployWebAppToAzure_518753f37abaddcfd011e3f84bb3993985e5ad5c29beb108cc3d44efad265738" Authorization="Bea..." Content-Type="application/json; charset=utf-8" Cookie="ARRAffinity=761a092c6cbeec305dbcc6c6e744b006c4d173d9d935c8e17cb6b4c751c4957e;Path=/;HttpOnly;Secure;Domain=stockspace-api-01-hgf2e5hxemcwckef.scm.japaneast-01.azurewebsites.net; ARRAffinitySameSite=761a092c6cbeec305dbcc6c6e744b006c4d173d9d935c8e17cb6b4c751c4957e;Path=/;HttpOnly;SameSite=None;Secure;Domain=stockspace-api-01-hgf2e5hxemcwckef.scm.japaneast-01.azurewebsites.net" Content-Length="0" X-ARR-LOG-ID="0953061d-13e1-4de5-ba84-f462a6836a2b" CLIENT-IP="64.236.142.225:20489" X-SITE-DEPLOYMENT-ID="stockspace-api-01" WAS-DEFAULT-HOSTNAME="stockspace-api-01-hgf2e5hxemcwckef.scm.japaneast-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest?deployer=OneDeploy&amp;time=2025-11-17_11-47-17Z" X-Client-IP="64.236.142.225" X-Client-Port="20489" >
+  <step title="Cleanup Xml Logs" date="2025-11-17T11:49:02.105" /><!-- duration: 27ms -->
+  <step title="DeploymentService.GetResult" date="2025-11-17T11:49:02.185" >
+    <step title="DeploymentService.GetLatestDeployment" date="2025-11-17T11:49:02.243" >
+      <step title="DeploymentManager.GetResults" date="2025-11-17T11:49:02.263" /><!-- duration: 371ms -->
+    </step><!-- duration: 402ms -->
+  </step><!-- duration: 479ms -->
+  <step title="Outgoing response" date="2025-11-17T11:49:02.684" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 13ms -->
+</step><!-- duration: 632ms -->
