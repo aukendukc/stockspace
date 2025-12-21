@@ -1,5 +1,6 @@
 import os
 import logging
+from datetime import datetime
 from pathlib import Path
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
@@ -155,3 +156,34 @@ app.include_router(uploads.router)
 @app.get("/")
 def home():
     return {"msg": "Hello StockSpace API"}
+
+
+@app.get("/health")
+def health_check():
+    """ヘルスチェックエンドポイント"""
+    try:
+        # データベース接続確認
+        db = SessionLocal()
+        try:
+            from sqlalchemy import text
+            db.execute(text("SELECT 1"))
+            db_status = "ok"
+        except Exception as e:
+            logger.error(f"Database health check failed: {e}")
+            db_status = "error"
+        finally:
+            db.close()
+        
+        return {
+            "status": "ok" if db_status == "ok" else "degraded",
+            "database": db_status,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {e}", exc_info=True)
+        return {
+            "status": "error",
+            "database": "unknown",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }

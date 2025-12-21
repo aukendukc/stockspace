@@ -1,13 +1,36 @@
+import os
+from datetime import datetime
 from typing import List, Optional
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
+
 from backend.database import SessionLocal
 from backend import models, schemas
 from backend.services.stock_data import fetch_stock_data, fetch_stock_data_detailed
 
 router = APIRouter(prefix="/stocks", tags=["stocks"])
+
+DEFAULT_POPULAR_SYMBOLS = [
+    "7203",  # Toyota
+    "6758",  # Sony
+    "9984",  # Softbank G
+    "9434",  # KDDI
+    "6861",  # Keyence
+    "9983",  # Fast Retailing
+    "8035",  # Tokyo Electron
+    "4063",  # Shin-Etsu Chemical
+    "8267",  # Aeon
+    "4503",  # Astellas Pharma
+]
+
+POPULAR_STOCK_SYMBOLS = [
+    symbol.strip()
+    for symbol in os.getenv("POPULAR_STOCK_SYMBOLS", ",".join(DEFAULT_POPULAR_SYMBOLS)).split(",")
+    if symbol.strip()
+]
 
 
 def get_db():
@@ -40,34 +63,108 @@ def get_stocks(
     if search.isdigit():
         # 銘柄コードで検索
         logger.info(f"Searching for stock: {search}")
-        realtime_data = fetch_stock_data_detailed(search)
-        if realtime_data:
-            logger.info(f"Found stock: {realtime_data.get('name')} ({realtime_data.get('symbol')})")
-            return [schemas.StockResponse(
-                id=0,
-                symbol=realtime_data["symbol"],
-                name=realtime_data["name"],
-                price=realtime_data["price"] or 0,
-                change=realtime_data["change"] or 0,
-                change_pct=realtime_data["change_pct"] or 0,
-                high=realtime_data.get("high"),
-                low=realtime_data.get("low"),
-                per=realtime_data.get("per"),
-                pbr=realtime_data.get("pbr"),
-                dividend_yield=realtime_data.get("dividend_yield"),
-                dividend_payout_ratio=realtime_data.get("dividend_payout_ratio"),
-                market_cap=realtime_data.get("market_cap"),
-                revenue=realtime_data.get("revenue"),
-                profit=realtime_data.get("profit"),
-                updated_at=None,
-            )]
-        else:
-            logger.warning(f"Stock not found: {search}")
-            raise HTTPException(status_code=404, detail=f"銘柄が見つかりませんでした: {search}")
+        try:
+            realtime_data = fetch_stock_data_detailed(search)
+            if realtime_data:
+                logger.info(f"Found stock: {realtime_data.get('name')} ({realtime_data.get('symbol')})")
+                return [schemas.StockResponse(
+                    id=0,
+                    symbol=realtime_data["symbol"],
+                    name=realtime_data["name"],
+                    price=realtime_data["price"] or 0,
+                    change=realtime_data["change"] or 0,
+                    change_pct=realtime_data["change_pct"] or 0,
+                    high=realtime_data.get("high"),
+                    low=realtime_data.get("low"),
+                    per=realtime_data.get("per"),
+                    pbr=realtime_data.get("pbr"),
+                    dividend_yield=realtime_data.get("dividend_yield"),
+                    dividend_payout_ratio=realtime_data.get("dividend_payout_ratio"),
+                    market_cap=realtime_data.get("market_cap"),
+                    revenue=realtime_data.get("revenue"),
+                    profit=realtime_data.get("profit"),
+                    updated_at=None,
+                )]
+            else:
+                logger.warning(f"Stock data fetch returned None for: {search}")
+                raise HTTPException(
+                    status_code=404, 
+                    detail=f"銘柄が見つかりませんでした: {search}。外部データソースから情報を取得できませんでした。"
+                )
+        except HTTPException:
+            # Re-raise HTTP exceptions (like 404)
+            raise
+        except Exception as e:
+            logger.error(f"Error fetching stock data for {search}: {e}", exc_info=True)
+            # Check if it's a rate limit error
+            error_msg = str(e).lower()
+            if "rate limit" in error_msg or "too many requests" in error_msg:
+                raise HTTPException(
+                    status_code=503,
+                    detail="外部データソースが一時的に利用できません。しばらく待ってから再度お試しください。"
+                )
+            raise HTTPException(
+                status_code=502,
+                detail=f"銘柄データの取得に失敗しました: {str(e)}"
+            )
     
     # 名前で検索する場合は、データベースを参照せず空を返す
     # （yfinanceでは名前検索ができないため）
     raise HTTPException(status_code=400, detail="銘柄コード（数字）で検索してください")
+
+
+@router.get("/rankings", response_model=schemas.StockRankingResponse)
+def get_stock_rankings(
+    limit: int = Query(5, ge=1, le=20),
+    db: Session = Depends(get_db),
+):
+    """
+    人気銘柄のリアルタイムランキングを取得。
+    POPULAR_STOCK_SYMBOLS 環境変数（カンマ区切り）が設定されていない場合はデフォルト銘柄を使用。
+    """
+    if not POPULAR_STOCK_SYMBOLS:
+        raise HTTPException(status_code=500, detail="ランキング対象の銘柄が設定されていません")
+
+    realtime_data = fetch_stock_data(POPULAR_STOCK_SYMBOLS)
+    if not realtime_data:
+        raise HTTPException(status_code=502, detail="外部データの取得に失敗しました")
+
+    entries = []
+    for symbol in POPULAR_STOCK_SYMBOLS:
+        metrics = realtime_data.get(symbol)
+        if not metrics:
+            continue
+
+        name = metrics.get("name")
+        if not name:
+            stock = db.query(models.Stock).filter(models.Stock.symbol == symbol).first()
+            name = stock.name if stock else symbol
+
+        price = metrics.get("price") or 0.0
+        change = metrics.get("change") or 0.0
+        change_pct = metrics.get("change_pct") or 0.0
+
+        entries.append(
+            schemas.StockRankingEntry(
+                symbol=symbol,
+                name=name,
+                price=float(price),
+                change=float(change),
+                change_pct=float(change_pct),
+            )
+        )
+
+    if not entries:
+        raise HTTPException(status_code=404, detail="ランキングを作成できるデータがありません")
+
+    top_gainers = sorted(entries, key=lambda item: item.change_pct, reverse=True)[:limit]
+    top_losers = sorted(entries, key=lambda item: item.change_pct)[:limit]
+
+    return schemas.StockRankingResponse(
+        updated_at=datetime.utcnow(),
+        top_gainers=top_gainers,
+        top_losers=top_losers,
+    )
 
 
 @router.get("/{symbol}", response_model=schemas.StockResponse)
