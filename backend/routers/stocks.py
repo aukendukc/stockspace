@@ -9,7 +9,11 @@ from sqlalchemy import or_
 
 from backend.database import SessionLocal
 from backend import models, schemas
-from backend.services.stock_data import fetch_stock_data, fetch_stock_data_detailed
+from backend.services.stock_data import (
+    fetch_stock_data,
+    fetch_stock_data_detailed,
+    get_listed_stocks,
+)
 
 router = APIRouter(prefix="/stocks", tags=["stocks"])
 
@@ -41,105 +45,170 @@ def get_db():
         db.close()
 
 
+# モックデータは削除 - 常にYahoo Finance APIからリアルタイムデータを取得
+
 @router.get("", response_model=List[schemas.StockResponse])
 def get_stocks(
     skip: int = 0,
     limit: int = 100,
-    search: Optional[str] = Query(None, description="銘柄コードまたは名前で検索（必須）"),
+    search: Optional[str] = Query(None, description="銘柄コードで検索（必須）"),
     db: Session = Depends(get_db)
 ):
     """
-    銘柄を検索。常にネットからリアルタイムで取得します。
-    searchパラメータが必須です。
+    銘柄を検索。Yahoo Finance APIからリアルタイムで取得。
+    searchパラメータは銘柄コード（数字）である必要があります。
     """
-    if not search:
-        # 検索クエリがない場合は空のリストを返す
-        return []
-    
-    # 常にネットからリアルタイムで取得
     import logging
     logger = logging.getLogger(__name__)
     
+    if not search:
+        # 検索クエリがない場合は空のリストを返す
+        return []
+
+    search = search.strip()
+    if not search:
+        return []
+
+    # 銘柄コードで検索（数字）
     if search.isdigit():
-        # 銘柄コードで検索
-        logger.info(f"Searching for stock: {search}")
+        logger.info(f"Searching for stock by code: {search}")
+        realtime_data = None
         try:
             realtime_data = fetch_stock_data_detailed(search)
-            if realtime_data:
-                logger.info(f"Found stock: {realtime_data.get('name')} ({realtime_data.get('symbol')})")
-                return [schemas.StockResponse(
-                    id=0,
-                    symbol=realtime_data["symbol"],
-                    name=realtime_data["name"],
-                    price=realtime_data["price"] or 0,
-                    change=realtime_data["change"] or 0,
-                    change_pct=realtime_data["change_pct"] or 0,
-                    high=realtime_data.get("high"),
-                    low=realtime_data.get("low"),
-                    per=realtime_data.get("per"),
-                    pbr=realtime_data.get("pbr"),
-                    dividend_yield=realtime_data.get("dividend_yield"),
-                    dividend_payout_ratio=realtime_data.get("dividend_payout_ratio"),
-                    market_cap=realtime_data.get("market_cap"),
-                    revenue=realtime_data.get("revenue"),
-                    profit=realtime_data.get("profit"),
-                    updated_at=None,
-                )]
-            else:
-                logger.warning(f"Stock data fetch returned None for: {search}")
-                raise HTTPException(
-                    status_code=404, 
-                    detail=f"銘柄が見つかりませんでした: {search}。外部データソースから情報を取得できませんでした。"
-                )
-        except HTTPException:
-            # Re-raise HTTP exceptions (like 404)
-            raise
         except Exception as e:
-            logger.error(f"Error fetching stock data for {search}: {e}", exc_info=True)
-            # Check if it's a rate limit error
-            error_msg = str(e).lower()
-            if "rate limit" in error_msg or "too many requests" in error_msg:
-                raise HTTPException(
-                    status_code=503,
-                    detail="外部データソースが一時的に利用できません。しばらく待ってから再度お試しください。"
-                )
+            logger.warning(f"Yahoo Finance API failed for {search}: {e}")
+
+        if not realtime_data:
             raise HTTPException(
-                status_code=502,
-                detail=f"銘柄データの取得に失敗しました: {str(e)}"
+                status_code=404,
+                detail=f"銘柄が見つかりませんでした: {search}",
             )
-    
-    # 名前で検索する場合は、データベースを参照せず空を返す
-    # （yfinanceでは名前検索ができないため）
-    raise HTTPException(status_code=400, detail="銘柄コード（数字）で検索してください")
+
+        logger.info(f"Found stock: {realtime_data.get('name')} ({realtime_data.get('symbol')})")
+        return [
+            schemas.StockResponse(
+                id=0,
+                symbol=realtime_data["symbol"],
+                name=realtime_data["name"],
+                price=realtime_data["price"] or 0,
+                change=realtime_data["change"] or 0,
+                change_pct=realtime_data["change_pct"] or 0,
+                high=realtime_data.get("high"),
+                low=realtime_data.get("low"),
+                per=realtime_data.get("per"),
+                pbr=realtime_data.get("pbr"),
+                dividend_yield=realtime_data.get("dividend_yield"),
+                dividend_payout_ratio=realtime_data.get("dividend_payout_ratio"),
+                market_cap=realtime_data.get("market_cap"),
+                revenue=realtime_data.get("revenue"),
+                profit=realtime_data.get("profit"),
+                updated_at=None,
+            )
+        ]
+
+    # 銘柄名で検索（J-Quantsの上場銘柄リスト）
+    listed_matches = get_listed_stocks(search)
+    if not listed_matches:
+        raise HTTPException(status_code=404, detail=f"銘柄が見つかりませんでした: {search}")
+
+    symbols = [item["symbol"] for item in listed_matches][:limit]
+    if not symbols:
+        raise HTTPException(status_code=404, detail=f"銘柄が見つかりませんでした: {search}")
+
+    realtime_data_map = fetch_stock_data(symbols)
+    results: List[schemas.StockResponse] = []
+    for symbol in symbols:
+        metrics = realtime_data_map.get(symbol)
+        if not metrics:
+            continue
+        results.append(
+            schemas.StockResponse(
+                id=0,
+                symbol=symbol,
+                name=metrics.get("name", symbol),
+                price=metrics.get("price") or 0,
+                change=metrics.get("change") or 0,
+                change_pct=metrics.get("change_pct") or 0,
+                high=metrics.get("high"),
+                low=metrics.get("low"),
+                per=metrics.get("per"),
+                pbr=metrics.get("pbr"),
+                dividend_yield=metrics.get("dividend_yield"),
+                dividend_payout_ratio=metrics.get("dividend_payout_ratio"),
+                market_cap=metrics.get("market_cap"),
+                revenue=metrics.get("revenue"),
+                profit=metrics.get("profit"),
+                updated_at=None,
+            )
+        )
+
+    if not results:
+        raise HTTPException(status_code=404, detail=f"銘柄が見つかりませんでした: {search}")
+
+    return results
 
 
 @router.get("/rankings", response_model=schemas.StockRankingResponse)
 def get_stock_rankings(
-    limit: int = Query(5, ge=1, le=20),
+    limit: int = Query(5, ge=1, le=50),
+    scope: str = Query("popular", description="popular or all"),
     db: Session = Depends(get_db),
 ):
     """
     人気銘柄のリアルタイムランキングを取得。
-    POPULAR_STOCK_SYMBOLS 環境変数（カンマ区切り）が設定されていない場合はデフォルト銘柄を使用。
+    Yahoo Finance APIから常にリアルタイムデータを取得します。
     """
-    if not POPULAR_STOCK_SYMBOLS:
-        raise HTTPException(status_code=500, detail="ランキング対象の銘柄が設定されていません")
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    symbols_to_use = POPULAR_STOCK_SYMBOLS if POPULAR_STOCK_SYMBOLS else DEFAULT_POPULAR_SYMBOLS
 
-    realtime_data = fetch_stock_data(POPULAR_STOCK_SYMBOLS)
+    if scope == "all":
+        try:
+            from backend.services.stock_data import get_market_movers_all
+            movers = get_market_movers_all(limit=limit)
+            return schemas.StockRankingResponse(
+                updated_at=datetime.utcnow(),
+                top_gainers=[
+                    schemas.StockRankingEntry(**item) for item in movers.get("top_gainers", [])
+                ],
+                top_losers=[
+                    schemas.StockRankingEntry(**item) for item in movers.get("top_losers", [])
+                ],
+            )
+        except Exception as e:
+            logger.error(f"Failed to build all-market rankings: {e}")
+            raise HTTPException(
+                status_code=503,
+                detail="全銘柄ランキングの取得に失敗しました。しばらく待ってから再度お試しください。"
+            )
+
+    # Yahoo Finance APIからデータ取得
+    realtime_data = {}
+    try:
+        realtime_data = fetch_stock_data(symbols_to_use)
+        logger.info(f"Fetched {len(realtime_data)} stocks from Yahoo Finance")
+    except Exception as e:
+        logger.error(f"Yahoo Finance API failed: {e}")
+        raise HTTPException(
+            status_code=503,
+            detail="株価データの取得に失敗しました。しばらく待ってから再度お試しください。"
+        )
+
     if not realtime_data:
-        raise HTTPException(status_code=502, detail="外部データの取得に失敗しました")
+        raise HTTPException(
+            status_code=503,
+            detail="株価データを取得できませんでした。"
+        )
 
     entries = []
-    for symbol in POPULAR_STOCK_SYMBOLS:
+    for symbol in symbols_to_use:
         metrics = realtime_data.get(symbol)
         if not metrics:
+            logger.warning(f"No data for symbol: {symbol}")
             continue
 
-        name = metrics.get("name")
-        if not name:
-            stock = db.query(models.Stock).filter(models.Stock.symbol == symbol).first()
-            name = stock.name if stock else symbol
-
+        name = metrics.get("name", symbol)
         price = metrics.get("price") or 0.0
         change = metrics.get("change") or 0.0
         change_pct = metrics.get("change_pct") or 0.0
@@ -155,7 +224,10 @@ def get_stock_rankings(
         )
 
     if not entries:
-        raise HTTPException(status_code=404, detail="ランキングを作成できるデータがありません")
+        raise HTTPException(
+            status_code=503,
+            detail="ランキングデータを取得できませんでした。"
+        )
 
     top_gainers = sorted(entries, key=lambda item: item.change_pct, reverse=True)[:limit]
     top_losers = sorted(entries, key=lambda item: item.change_pct)[:limit]
@@ -167,24 +239,70 @@ def get_stock_rankings(
     )
 
 
+@router.get("/listed", response_model=List[schemas.StockListedInfo])
+def get_listed_stocks_api(
+    skip: int = 0,
+    limit: int = 100,
+    search: Optional[str] = Query(None, description="銘柄コードまたは会社名で検索"),
+):
+    """
+    日本の上場銘柄リストを取得（J-Quants）。
+    価格は含まず、銘柄コードと会社名のみ返します。
+    """
+    items = get_listed_stocks(search)
+    if not items:
+        raise HTTPException(
+            status_code=503,
+            detail="上場銘柄リストを取得できませんでした。J-Quantsトークンを確認してください。",
+        )
+
+    sliced = items[skip : skip + limit]
+    return [
+        schemas.StockListedInfo(
+            symbol=item.get("symbol"),
+            name=item.get("name"),
+            market=item.get("market"),
+        )
+        for item in sliced
+    ]
+
+
 @router.get("/{symbol}", response_model=schemas.StockResponse)
 def get_stock(symbol: str, db: Session = Depends(get_db)):
     """
     銘柄の詳細情報を取得。常にネットからリアルタイムで取得します。
     """
     # 常にネットからリアルタイムで取得
-    realtime_data = fetch_stock_data_detailed(symbol)
+    # 会社名が入ってきた場合はJ-Quantsリストから銘柄コードを解決
+    resolved_symbol = symbol
+    if not symbol.isdigit():
+        matches = get_listed_stocks(symbol)
+        if matches:
+            resolved_symbol = matches[0]["symbol"]
+
+    realtime_data = fetch_stock_data_detailed(resolved_symbol)
     if not realtime_data:
-        raise HTTPException(status_code=404, detail="Stock not found")
+        # 詳細取得に失敗した場合は、簡易データでフォールバックする
+        logger.warning(f"Detailed fetch failed for {resolved_symbol}, trying fallback")
+        fallback_map = fetch_stock_data([resolved_symbol])
+        realtime_data = fallback_map.get(resolved_symbol) if fallback_map else None
+        if not realtime_data:
+            logger.error(f"Stock not found: {resolved_symbol}")
+            raise HTTPException(status_code=404, detail="Stock not found")
+    
+    # データソースをログ出力
+    logger.info(f"Returning stock data for {resolved_symbol}: source={realtime_data.get('source', 'unknown')}, "
+               f"has_revenue_history={bool(realtime_data.get('revenue_history'))}, "
+               f"has_price_history={bool(realtime_data.get('price_history'))}")
     
     # リアルタイムデータをStockResponse形式に変換
     return schemas.StockResponse(
         id=0,
-        symbol=realtime_data["symbol"],
-        name=realtime_data["name"],
-        price=realtime_data["price"] or 0,
-        change=realtime_data["change"] or 0,
-        change_pct=realtime_data["change_pct"] or 0,
+        symbol=realtime_data.get("symbol", resolved_symbol),
+        name=realtime_data.get("name", resolved_symbol),
+        price=realtime_data.get("price") or 0,
+        change=realtime_data.get("change") or 0,
+        change_pct=realtime_data.get("change_pct") or 0,
         high=realtime_data.get("high"),
         low=realtime_data.get("low"),
         per=realtime_data.get("per"),
@@ -194,6 +312,12 @@ def get_stock(symbol: str, db: Session = Depends(get_db)):
         market_cap=realtime_data.get("market_cap"),
         revenue=realtime_data.get("revenue"),
         profit=realtime_data.get("profit"),
+        price_history=realtime_data.get("price_history"),
+        price_history_labels=realtime_data.get("price_history_labels"),
+        revenue_history=realtime_data.get("revenue_history"),
+        profit_history=realtime_data.get("profit_history"),
+        dividend_history=realtime_data.get("dividend_history"),
+        dividend_labels=realtime_data.get("dividend_labels"),
         updated_at=None,
     )
 

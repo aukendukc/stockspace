@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional, List
+from typing import Optional, List, Any
 from datetime import datetime
 
 
@@ -44,6 +44,12 @@ class StockCreate(StockBase):
     market_cap: Optional[float] = None
     revenue: Optional[float] = None
     profit: Optional[float] = None
+    price_history: Optional[List[float]] = None
+    price_history_labels: Optional[List[str]] = None
+    revenue_history: Optional[List[float]] = None
+    profit_history: Optional[List[float]] = None
+    dividend_history: Optional[List[Any]] = None
+    dividend_labels: Optional[List[str]] = None
 
 
 class StockResponse(StockCreate):
@@ -51,6 +57,26 @@ class StockResponse(StockCreate):
     updated_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
+
+
+class StockRankingEntry(BaseModel):
+    symbol: str
+    name: str
+    price: float
+    change: float
+    change_pct: float
+
+
+class StockRankingResponse(BaseModel):
+    updated_at: datetime
+    top_gainers: List[StockRankingEntry]
+    top_losers: List[StockRankingEntry]
+
+
+class StockListedInfo(BaseModel):
+    symbol: str
+    name: str
+    market: Optional[str] = None
 
 
 # Post schemas
@@ -80,6 +106,10 @@ class PostResponse(PostBase):
     likes_count: int = 0
     retweets_count: int = 0
     comments_count: int = 0
+    is_liked: bool = False
+    is_retweeted: bool = False
+    retweeted_by: Optional[UserResponse] = None  # リツイートした人
+    retweeted_at: Optional[datetime] = None  # リツイートした日時
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -163,3 +193,45 @@ class CommentResponse(CommentBase):
 
 class UserIconUpdate(BaseModel):
     icon_url: str
+
+
+# DM (Direct Message) schemas
+class DirectMessageCreate(BaseModel):
+    text: str
+
+
+class DirectMessageResponse(BaseModel):
+    id: int
+    conversation_id: int
+    sender_id: int
+    sender: UserResponse
+    text: str
+    is_read: bool
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class ConversationCreate(BaseModel):
+    user_id: int  # 会話相手のユーザーID
+    initial_message: str  # 最初のメッセージ
+
+
+class ConversationResponse(BaseModel):
+    id: int
+    other_user: UserResponse  # 相手ユーザー
+    last_message: Optional[DirectMessageResponse] = None
+    unread_count: int = 0
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+
+    model_config = {"from_attributes": True}
+
+
+class ConversationDetailResponse(BaseModel):
+    id: int
+    other_user: UserResponse
+    messages: List[DirectMessageResponse] = []
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
